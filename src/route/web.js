@@ -7,8 +7,12 @@ let router=express.Router();
 
 let initWebRoutes=(app)=>{
     router.get('/',homeController.getHomePage);
-    router.get('/system',adminController.getAdminPage);
-    router.get('/create-cartegory',cartegoryController.getCreateCartegoryPage);
+    router.get('/cartegory/list',cartegoryController.getCartegoryList);
+    router.get('/cartegory/create',cartegoryController.getCreateCartegoryPage);
+    router.post('/create-new-cartegory',cartegoryController.createNewCartegory);
+    router.get('/cartegory/edit/:id',cartegoryController.getEditCartegoryPage);
+    router.post('/cartegory/update',cartegoryController.updateCartegory);
+    router.post('/cartegory/delete',cartegoryController.deleteCartegory);
 
     return app.use('/',router);
 }

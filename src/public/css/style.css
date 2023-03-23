@@ -11,7 +11,7 @@ ul li{
     display: flex;
 }
 
-.manage-container .manage-left{
+.manage-left{
     background-color: #333;
     color: white;
     height: 100vh;
@@ -19,12 +19,12 @@ ul li{
     padding: 20px;
 }
 
-.manage-container .manage-left .manage-top{
+.manage-left .manage-top{
     border-bottom: 1px solid gray;
     margin: 10px 0;
 }
 
-.manage-container .manage-left .manage-top img{
+.manage-left .manage-top img{
     width: 50px;
     height: 50px;
     border: 1px solid gray;
@@ -43,4 +43,9 @@ ul li{
 .manage-container .manage-right{
     margin-left: 30px;
     width: 70%;
+}
+
+.action{
+    display: flex;
+    gap: 15px;
 }
