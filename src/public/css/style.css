@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+ul li{
+    list-style: none;
+}
+
+.manage-container{
+    display: flex;
+}
+
+.manage-container .manage-left{
+    background-color: #333;
+    color: white;
+    height: 100vh;
+    width: 25%;
+    padding: 20px;
+}
+
+.manage-container .manage-left .manage-top{
+    border-bottom: 1px solid gray;
+    margin: 10px 0;
+}
+
+.manage-container .manage-left .manage-top img{
+    width: 50px;
+    height: 50px;
+    border: 1px solid gray;
+    border-radius: 50%;
+}
+
+.manage-container .manage-left li{
+    margin: 10px 0;
+}
+
+.manage-container .manage-left li a{
+    text-decoration: none;
+    color: white;
+}
+
+.manage-container .manage-right{
+    margin-left: 30px;
+    width: 70%;
+}
