@@ -2,7 +2,7 @@ import cartegoryService from '../services/cartegoryService';
 
 let getCreateCartegoryPage=async(req,res)=>{
     try {
-        let data=await cartegoryService.getAllCartegory();
+        let data=await cartegoryService.getCartegoryList();
         res.render('cartegory/CreateCartegory',{data});
     } catch (error) {
         console.log(error);
@@ -29,7 +29,7 @@ let createNewCartegory=async(req,res)=>{
 
 let getEditCartegoryPage=async(req,res)=>{
     try {
-        let data=await cartegoryService.getAllCartegory();
+        let data=await cartegoryService.getCartegoryList();
         let cartegory=await cartegoryService.getEditCartegory(req.params.id);
         res.render('cartegory/EditCartegory',{cartegory:cartegory,data:data});
     } catch (error) {

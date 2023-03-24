@@ -1,5 +1,5 @@
-let getHomePage=(req,res)=>{
-    res.send("Hello");
+let getLoginPage=(req,res)=>{
+    res.render('login');
 }
 
-module.exports={getHomePage}
+module.exports={getLoginPage}

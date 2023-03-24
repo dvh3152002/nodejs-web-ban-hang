@@ -1,9 +1,11 @@
 import db from "../models";
 import recurse from "./recurse";
 
-let getCartegoryList=async()=>{
+let getMenuList=async()=>{
     try {
-        let data=await db.Cartegory.findAll({});
+        let data=await db.Menu.findAll({
+            raw:true
+        });
         recurse(data,0,'');
         return data;
     } catch (error) {
@@ -11,16 +13,16 @@ let getCartegoryList=async()=>{
     }
 }
 
-let createNewCartegory=async(data)=>{
-    await db.Cartegory.create({
+let createNewMenu=async(data)=>{
+    await db.Menu.create({
         name:data.name,
         parent_id:data.parent_id
     })
 }
 
-let getAllCartegory=async()=>{
+let getAllMenu=async()=>{
     try {
-        let data=await db.Cartegory.findAll({
+        let data=await db.Menu.findAll({
             raw:true
         })
         return data;
@@ -29,11 +31,11 @@ let getAllCartegory=async()=>{
     }
 }
 
-let getEditCartegory=async(id)=>{
+let getEditMenu=async(id)=>{
     try {
-        let data = await db.Cartegory.findOne({
+        let data = await db.Menu.findOne({
             where: { id: id },
-            raw: false
+            raw: true
         });
         return data;
     } catch (error) {
@@ -41,29 +43,29 @@ let getEditCartegory=async(id)=>{
     }
 }
 
-let updateCartegory=async(data)=>{
+let updateMenu=async(data)=>{
     try {
-        let cartegory=await db.Cartegory.findOne({
+        let menu=await db.Menu.findOne({
             where:{
                 id:data.id
             }
         })
-        if(cartegory){
-            cartegory.name=data.name;
-            cartegory.parent_id=data.parent_id;
-            await cartegory.save();
+        if(menu){
+            menu.name=data.name;
+            menu.parent_id=data.parent_id;
+            await menu.save();
         }else{
-            cartegory={}
+            menu={}
         }
-        return cartegory;
+        return menu;
     } catch (error) {
         console.log(error);
     }
 }
 
-let deleteCartegory=async(id)=>{
+let deleteMenu=async(id)=>{
     try {
-        let data=await db.Cartegory.findOne({
+        let data=await db.Menu.findOne({
             where:{id:id},
             raw:false
         })
@@ -75,6 +77,6 @@ let deleteCartegory=async(id)=>{
     }
 }
 
-module.exports={createNewCartegory,getAllCartegory,getEditCartegory,updateCartegory,deleteCartegory,
-    getCartegoryList
+module.exports={createNewMenu,getAllMenu,getEditMenu,updateMenu,deleteMenu,
+    getMenuList
 }
