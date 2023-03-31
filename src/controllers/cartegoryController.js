@@ -3,7 +3,7 @@ import cartegoryService from '../services/cartegoryService';
 let getCreateCartegoryPage=async(req,res)=>{
     try {
         let data=await cartegoryService.getCartegoryList();
-        res.render('cartegory/CreateCartegory',{data});
+        res.render('manage/cartegory/CreateCartegory',{data});
     } catch (error) {
         console.log(error);
     }
@@ -12,7 +12,7 @@ let getCreateCartegoryPage=async(req,res)=>{
 let getCartegoryList=async(req,res)=>{
     try {
         let data=await cartegoryService.getAllCartegory();
-        res.render('cartegory/CartegoryList',{data});
+        res.render('manage/cartegory/CartegoryList',{data});
     } catch (error) {
         console.log(error);
     }
@@ -31,7 +31,7 @@ let getEditCartegoryPage=async(req,res)=>{
     try {
         let data=await cartegoryService.getCartegoryList();
         let cartegory=await cartegoryService.getEditCartegory(req.params.id);
-        res.render('cartegory/EditCartegory',{cartegory:cartegory,data:data});
+        res.render('manage/cartegory/EditCartegory',{cartegory:cartegory,data:data});
     } catch (error) {
         console.log(error);
     }
@@ -39,7 +39,7 @@ let getEditCartegoryPage=async(req,res)=>{
 
 let updateCartegory=async(req,res)=>{
     try {
-        await cartegoryService.updateCartegory(req.body);
+        await cartegoryService.updateCartegory(req.params.id,req.body);
         res.redirect('/cartegory/list');
     } catch (error) {
         console.log(error);

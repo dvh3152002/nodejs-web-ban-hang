@@ -14,8 +14,8 @@ ul li{
 .manage-left{
     background-color: #333;
     color: white;
-    height: 100vh;
     width: 25%;
+    min-height: 100vh;
     padding: 20px;
 }
 
@@ -33,6 +33,7 @@ ul li{
 
 .manage-container .manage-left li{
     margin: 10px 0;
+    font-size: 18px;
 }
 
 .manage-container .manage-left li a{
@@ -48,4 +49,13 @@ ul li{
 .action{
     display: flex;
     gap: 15px;
+}
+
+.login-container{
+    background: linear-gradient(135deg, rgb(83, 17, 153) 0%, rgb(11, 75, 187) 100%);
+}
+
+.product-img{
+    width: 100px;
+    height: 80px;
 }

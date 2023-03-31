@@ -1,10 +1,10 @@
 import db from "../models";
-import recurse from "./recurse";
+import partial from "./partial";
 
 let getCartegoryList=async()=>{
     try {
         let data=await db.Cartegory.findAll({});
-        recurse(data,0,'');
+        partial.recurse(data,0,'');
         return data;
     } catch (error) {
         console.log(error)
@@ -21,6 +21,8 @@ let createNewCartegory=async(data)=>{
 let getAllCartegory=async()=>{
     try {
         let data=await db.Cartegory.findAll({
+            offset: 0,
+            limit: 10,
             raw:true
         })
         return data;
@@ -41,12 +43,13 @@ let getEditCartegory=async(id)=>{
     }
 }
 
-let updateCartegory=async(data)=>{
+let updateCartegory=async(id,data)=>{
     try {
         let cartegory=await db.Cartegory.findOne({
             where:{
-                id:data.id
-            }
+                id:id
+            },
+            raw:false
         })
         if(cartegory){
             cartegory.name=data.name;

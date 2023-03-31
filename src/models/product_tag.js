@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Product_Tag.belongsTo(models.Product,{foreignKey:"product_id",as:"productTagData"})
+      Product_Tag.belongsTo(models.Tag,{foreignKey:"tag_id",as:"tagData"})
     }
   }
   Product_Tag.init({
@@ -19,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Product_Tag',
+    freezeTableName:true
   });
   return Product_Tag;
 };

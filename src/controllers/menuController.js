@@ -3,7 +3,7 @@ import menuService from '../services/menuService';
 let getMenuList=async(req,res)=>{
     try {
         let data=await menuService.getAllMenu();
-        res.render('menu/MenuList',{data});
+        res.render('manage/menu/MenuList',{data});
     } catch (error) {
         console.log(error);
     }
@@ -12,7 +12,7 @@ let getMenuList=async(req,res)=>{
 let getCreateMenuPage=async(req,res)=>{
     try {
         let data=await menuService.getMenuList();
-        res.render('menu/CreateMenu',{data});
+        res.render('manage/menu/CreateMenu',{data});
     } catch (error) {
         console.log(error);
     }
@@ -31,7 +31,7 @@ let getEditMenuPage=async(req,res)=>{
     try {
         let data=await menuService.getMenuList();
         let menu=await menuService.getEditMenu(req.params.id);
-        res.render('menu/EditMenu',{menu:menu,data:data});
+        res.render('manage/menu/EditMenu',{menu:menu,data:data});
     } catch (error) {
         console.log(error);
     }
@@ -39,7 +39,7 @@ let getEditMenuPage=async(req,res)=>{
 
 let updateMenu=async(req,res)=>{
     try {
-        await menuService.updateMenu(req.body);
+        await menuService.updateMenu(req.params.id,req.body);
         res.redirect('/menu/list');
     } catch (error) {
         console.log(error);

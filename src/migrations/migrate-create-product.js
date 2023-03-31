@@ -18,6 +18,9 @@ module.exports = {
       feature_image:{
         type:Sequelize.STRING
       },
+      feature_image_path:{
+        type:Sequelize.STRING
+      },
       content:{
         type:Sequelize.TEXT('long')
       },

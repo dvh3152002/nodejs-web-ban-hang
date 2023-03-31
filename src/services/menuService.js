@@ -1,12 +1,12 @@
 import db from "../models";
-import recurse from "./recurse";
+import partial from "./partial";
 
 let getMenuList=async()=>{
     try {
         let data=await db.Menu.findAll({
             raw:true
         });
-        recurse(data,0,'');
+        partial.recurse(data,0,'');
         return data;
     } catch (error) {
         console.log(error)
@@ -43,12 +43,13 @@ let getEditMenu=async(id)=>{
     }
 }
 
-let updateMenu=async(data)=>{
+let updateMenu=async(id,data)=>{
     try {
         let menu=await db.Menu.findOne({
             where:{
-                id:data.id
-            }
+                id:id
+            },
+            raw:false
         })
         if(menu){
             menu.name=data.name;
