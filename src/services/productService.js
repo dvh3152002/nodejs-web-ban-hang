@@ -45,21 +45,39 @@ let createNewProduct=async(data,dataImage)=>{
 
         //Tạo Tag
         let dataTags=data.tags;
-        for(let i=0;i<dataTags.length;i++){
+        if(typeof dataTags === 'string' || dataTags instanceof String){
             let tag=await db.Tag.findOrCreate({
                 where:{
-                    name:dataTags[i]
+                    name:dataTags
                 },
                 defaults:{
-                    name:dataTags[i]
+                    name:dataTags
                 },
-                raw:true
+                raw:false
             })
             if(tag && tag[0]){
                 await db.Product_Tag.create({
                     product_id:product.id,
                     tag_id:tag[0].id
                 })
+            }
+        }else{
+            for(let i=0;i<dataTags.length;i++){
+                let tag=await db.Tag.findOrCreate({
+                    where:{
+                        name:dataTags[i]
+                    },
+                    defaults:{
+                        name:dataTags[i]
+                    },
+                    raw:false
+                })
+                if(tag && tag[0]){
+                    await db.Product_Tag.create({
+                        product_id:product.id,
+                        tag_id:tag[0].id
+                    })
+                }
             }
         }
     } catch (error) {
@@ -70,7 +88,10 @@ let createNewProduct=async(data,dataImage)=>{
 let getAllProduct=async()=>{
     try {
         let data=await db.Product.findAll({
-            raw:true,
+            raw:false,
+            order: [
+                ['createdAt','DESC']
+            ],
             include: [
                 { model: db.Cartegory,as:"cartegoryData", attributes: ['id', 'name'] },
             ],
@@ -90,9 +111,9 @@ let getEditProduct=async(id)=>{
                 { model: db.Product_Image, attributes: ['image'],as:"productImageData"},
                 { model: db.Product_Tag, attributes: ['tag_id'],
                 include: [
-                    { model: db.Tag, attributes: ['name'],as:"tagData",raw:true}
+                    { model: db.Tag, attributes: ['name'],as:"tagData"}
                 ],
-                as:"productTagData",raw:true }
+                as:"productTagData" }
             ],
             raw: false,
             nest:true
@@ -158,21 +179,39 @@ let updateProduct=async(id,data,dataImage)=>{
             }
 
             let dataTags=data.tags;
-            for(let i=0;i<dataTags.length;i++){
+            if(typeof dataTags === 'string' || dataTags instanceof String){
                 let tag=await db.Tag.findOrCreate({
                     where:{
-                        name:dataTags[i]
+                        name:dataTags
                     },
                     defaults:{
-                        name:dataTags[i]
+                        name:dataTags
                     },
-                    raw:true
+                    raw:false
                 })
                 if(tag && tag[0]){
                     await db.Product_Tag.create({
                         product_id:product.id,
                         tag_id:tag[0].id
                     })
+                }
+            }else{
+                for(let i=0;i<dataTags.length;i++){
+                    let tag=await db.Tag.findOrCreate({
+                        where:{
+                            name:dataTags[i]
+                        },
+                        defaults:{
+                            name:dataTags[i]
+                        },
+                        raw:false
+                    })
+                    if(tag && tag[0]){
+                        await db.Product_Tag.create({
+                            product_id:product.id,
+                            tag_id:tag[0].id
+                        })
+                    }
                 }
             }
 
