@@ -34,7 +34,7 @@
                           <td class="col-2">
                             <img class="product-img" src="/images/<%= data[i].feature_image %>" alt="">
                           </td>
-                          <td class="col-2"><%= data[i].cartegoryData.name %></td>
+                          <td class="col-2"><%= data[i].cartegoryData&&data[i].cartegoryData.name?data[i].cartegoryData.name:'null' %></td>
                           <td class="col-2 action">
                             <a href="/product/edit/<%=data[i].id %>" class="btn btn-default">Sửa</a>
                               <input type="text" name="id" value="<%=data[i].id %>" hidden>
