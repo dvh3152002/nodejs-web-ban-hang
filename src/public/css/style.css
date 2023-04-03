@@ -55,6 +55,10 @@ ul li{
     background: linear-gradient(135deg, rgb(83, 17, 153) 0%, rgb(11, 75, 187) 100%);
 }
 
+.upload-img{
+    display: none;
+}
+
 .product-img{
     width: 100px;
     height: 80px;

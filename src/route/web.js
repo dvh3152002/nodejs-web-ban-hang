@@ -6,6 +6,7 @@ import adminController from '../controllers/adminController';
 import cartegoryController from '../controllers/cartegoryController';
 import menuController from '../controllers/menuController';
 import productController from '../controllers/productController';
+import sliderController from '../controllers/sliderController';
 
 var appRoot = require('app-root-path');
 
@@ -65,6 +66,13 @@ let initWebRoutes=(app)=>{
         {name:"feature_image"}
     ]),productController.updateProduct);
     router.post('/product/delete',productController.deleteProduct);
+
+    router.get('/slider/list',sliderController.getSliderList);
+    router.get('/slider/create',sliderController.getCreateSliderPage);
+    router.post('/slider/delete',sliderController.deleteSlider);
+    router.post('/create-new-slider',upload.single('slider_image'),sliderController.createNewSlider);
+    router.get('/slider/edit/:id',sliderController.getEditSliderPage);
+    router.post('/slider/update/:id',upload.single('slider_image'),sliderController.updateSlider);
 
     return app.use('/',router);
 }

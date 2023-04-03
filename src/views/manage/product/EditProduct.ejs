@@ -38,7 +38,7 @@
                         <label class="form-label">Ảnh chi tiết</label>
                         <br>
                         <label class="btn btn-dark" for="formFileMultiple" class="form-label">Upload</label>
-                        <input onchange="onChangeMultipleImage(event)" class="form-control-file" type="file" placeholder="Ảnh chi tiết" name="image_details" multiple id="formFileMultiple" hidden>
+                        <input onchange="onChangeMultipleImage(event,'edit')" class="form-control-file" type="file" placeholder="Ảnh chi tiết" name="image_details" multiple id="formFileMultiple" hidden>
                         <div class="row" id="image-details-before">
                             <% for(let i=0; i<productImageData.length; i++){ %>
                                 <img class="product-img mx-lg-2" src="/images/<%=productImageData[i].image %>" alt="">

@@ -24,10 +24,10 @@ let createNewProduct=async(req,res)=>{
             return res.send(req.fileValidationError);
         }
         else if (!req.files.feature_image) {
-            return alert('Vui lòng chọn ảnh đại diện');
+            return res.send('Bạn chưa chọn ảnh đại diện');
         }
         else if (!req.files.image_details) {
-            return res.send('Vui lòng chọn ảnh chi tiết');
+            return res.send('Bạn chưa chọn ảnh chi tiết');
         }
         await productService.createNewProduct(req.body,req.files);
         res.redirect("/product/list");
