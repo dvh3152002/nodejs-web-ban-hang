@@ -10,7 +10,7 @@
           <div class="row">
               <div class="col-12"><h3>Danh mục sản phẩm</h3></div>
               <div class="col-md-12 mb-2">
-                  <a href="/cartegory/create" class="btn btn-primary float-right">Add</a>
+                  <a href="/cartegory/create" class="btn btn-primary float-end">Add</a>
               </div>
               <div class="col-md-12">
                 <table class="table">
@@ -22,20 +22,20 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <form action="/cartegory/delete" method="post">
                       <% for(let i=0;i<data.length;i++){ %>
                         <tr>
                           <th scope="row" class="col-3"><%= i+1 %></th>
-                          <td class="col-5"><%= data[i].name %></td>
-                          <td class="col-4 action">
-                            <a href="/cartegory/edit/<%=data[i].id %>" class="btn btn-default">Sửa</a>
-                            <form action="/cartegory/delete" method="post">
+                          <td class="col-6"><%= data[i].name %></td>
+                          <td class="col-3">
+                            <a href="/cartegory/edit/<%=data[i].id %>" class="btn btn-success">Sửa</a>
                               <input type="text" name="id" value="<%=data[i].id %>" hidden>
                               <button href="" class="btn btn-danger">Xóa</button>
-                            </form>
                           </td>
                         </tr>
                       <% } %>
-                    </tbody>
+                    </form>
+                  </tbody>
                 </table>
               </div>
           </div>

@@ -7,6 +7,7 @@ import cartegoryController from '../controllers/cartegoryController';
 import menuController from '../controllers/menuController';
 import productController from '../controllers/productController';
 import sliderController from '../controllers/sliderController';
+import settingController from '../controllers/settingController';
 
 var appRoot = require('app-root-path');
 
@@ -73,6 +74,13 @@ let initWebRoutes=(app)=>{
     router.post('/create-new-slider',upload.single('slider_image'),sliderController.createNewSlider);
     router.get('/slider/edit/:id',sliderController.getEditSliderPage);
     router.post('/slider/update/:id',upload.single('slider_image'),sliderController.updateSlider);
+
+    router.get('/setting/list',settingController.getSettingList);
+    router.get('/setting/create',settingController.getCreateSettingPage);
+    router.post('/setting/delete',settingController.deleteSetting);
+    router.post('/create-new-setting',settingController.createNewSetting);
+    router.get('/setting/edit/:id',settingController.getEditSettingPage);
+    router.post('/setting/update/:id',settingController.updateSetting);
 
     return app.use('/',router);
 }

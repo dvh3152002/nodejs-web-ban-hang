@@ -8,41 +8,35 @@
       <%- include('../../partials/slider') %>
       <div class="manage-right">
           <div class="row">
-              <div class="col-12"><h3>Menu</h3></div>
+              <div class="col-12"><h3>Setting</h3></div>
               <div class="col-md-12 mb-2">
-                  <a href="/product/create" class="btn btn-primary float-end">Add</a>
+                <a href="/setting/create" class="btn btn-primary float-end">Add</a>
               </div>
               <div class="col-md-12">
                 <table class="table">
                     <thead>
                       <tr>
                         <th scope="col">STT</th>
-                        <th scope="col">Tên sản phẩm</th>
-                        <th scope="col">Giá bán</th>
-                        <th scope="col">Hình ảnh</th>
-                        <th scope="col">Danh mục</th>
+                        <th scope="col">Config key</th>
+                        <th scope="col">Config value</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <form action="/product/delete" method="post">
+                      <form action="/setting/delete" method="post">
                       <% for(let i=0;i<data.length;i++){ %>
                         <tr>
                           <th scope="row" class="col-2"><%= i+1 %></th>
-                          <td class="col-2"><%= data[i].name %></td>
-                          <td class="col-2"><%= data[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                          <td class="col-2"><%= data[i].config_key %></td>
+                          <td class="col-2"><%= data[i].config_value%></td>
                           <td class="col-2">
-                            <img class="product-img" src="/images/<%= data[i].feature_image %>" alt="">
-                          </td>
-                          <td class="col-2"><%= data[i].cartegoryData&&data[i].cartegoryData.name?data[i].cartegoryData.name:'null' %></td>
-                          <td class="col-2">
-                            <a href="/product/edit/<%=data[i].id %>" class="btn btn-success">Sửa</a>
+                            <a href="/setting/edit/<%=data[i].id %>" class="btn btn-success">Sửa</a>
                               <input type="text" name="id" value="<%=data[i].id %>" hidden>
                               <button href="" class="btn btn-danger">Xóa</button>
                           </td>
                         </tr>
-                      </form>
                       <% } %>
+                      </form>
                     </tbody>
                 </table>
               </div>

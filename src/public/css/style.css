@@ -46,11 +46,6 @@ ul li{
     width: 70%;
 }
 
-.action{
-    display: flex;
-    gap: 15px;
-}
-
 .login-container{
     background: linear-gradient(135deg, rgb(83, 17, 153) 0%, rgb(11, 75, 187) 100%);
 }
@@ -60,6 +55,6 @@ ul li{
 }
 
 .product-img{
-    width: 100px;
-    height: 80px;
+    width: 120px !important;
+    height: 100px !important;
 }
