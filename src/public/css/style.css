@@ -16,12 +16,10 @@ ul li{
     color: white;
     width: 25%;
     min-height: 100vh;
-    padding: 20px;
 }
 
 .manage-left .manage-top{
     border-bottom: 1px solid gray;
-    margin: 10px 0;
 }
 
 .manage-left .manage-top img{
@@ -57,4 +55,28 @@ ul li{
 .product-img{
     width: 120px !important;
     height: 100px !important;
+}
+
+.manage-menu{
+    padding: 5px 10px;
+    border-bottom: 1px solid #fff;
+    display: flex;
+    justify-content: space-between;
+    background-color: #333;
+    color: #ccc;
+}
+
+.manage-menu>.title{
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.manage-menu-right{
+    display: flex;
+    gap: 15px;
+}
+
+.manage-menu-right> .log-out >a{
+    color: #ccc;
+    text-decoration: none;
 }

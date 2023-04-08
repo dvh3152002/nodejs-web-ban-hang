@@ -1,13 +1,13 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import homeController from '../controllers/homeController';
-import adminController from '../controllers/adminController';
+import userController from '../controllers/userController';
 import cartegoryController from '../controllers/cartegoryController';
 import menuController from '../controllers/menuController';
 import productController from '../controllers/productController';
 import sliderController from '../controllers/sliderController';
 import settingController from '../controllers/settingController';
+import roleController from '../controllers/roleController';
 
 var appRoot = require('app-root-path');
 
@@ -34,11 +34,18 @@ const imageFilter = function (req, file, cb) {
 };
 
 let upload = multer({ storage: storage, fileFilter: imageFilter });
-let uploadMultipleFiles = multer({ storage: storage, fileFilter: imageFilter }).array('image_details', 3);
 
 let initWebRoutes=(app)=>{
-    router.get('/admin',adminController.getLoginPage);
-    router.post('/admin',adminController.postLoginAdmin);
+    router.get('/register',userController.getRegisterPage);
+    router.post('/register',userController.postRegister);
+    router.get('/login',userController.getLoginPage);
+    router.post('/login',userController.handleLogin);
+    router.get('/user/list',userController.getUserList);
+    router.get('/user/create',userController.getCreateUserPage);
+    router.post('/create-new-user',userController.createNewUser);
+    router.get('/user/edit/:id',userController.getEditUserPage);
+    router.post('/user/update/:id',userController.updateUser);
+    router.post('/user/delete',userController.deleteUser);
 
     router.get('/cartegory/list',cartegoryController.getCartegoryList);
     router.get('/cartegory/create',cartegoryController.getCreateCartegoryPage);
@@ -81,6 +88,13 @@ let initWebRoutes=(app)=>{
     router.post('/create-new-setting',settingController.createNewSetting);
     router.get('/setting/edit/:id',settingController.getEditSettingPage);
     router.post('/setting/update/:id',settingController.updateSetting);
+
+    router.get('/role/list',roleController.getRoleList);
+    router.get('/role/create',roleController.getCreateRolePage);
+    router.post('/create-new-role',roleController.createNewRole);
+    router.get('/role/edit/:id',roleController.getEditRolePage);
+    router.post('/role/update/:id',roleController.updateRole);
+    router.post('/role/delete',roleController.deleteRole);
 
     return app.use('/',router);
 }
