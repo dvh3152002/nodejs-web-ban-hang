@@ -76,7 +76,9 @@ ul li{
     gap: 15px;
 }
 
-.manage-menu-right> .log-out >a{
+.manage-menu-right> .log-out >button{
     color: #ccc;
-    text-decoration: none;
+    background-color: #333;
+    outline: none;
+    border: none;
 }

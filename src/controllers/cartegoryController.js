@@ -12,6 +12,7 @@ let getCreateCartegoryPage=async(req,res)=>{
 let getCartegoryList=async(req,res)=>{
     try {
         let data=await cartegoryService.getAllCartegory();
+        data.user=req.session.authUser.name;
         res.render('manage/cartegory/CartegoryList',{data});
     } catch (error) {
         console.log(error);

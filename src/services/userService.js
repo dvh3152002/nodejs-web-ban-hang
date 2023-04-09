@@ -17,8 +17,9 @@ let handleLogin=async(data)=>{
             where:{email:data.email}
         })
         if(user){
-            let check=bcrypt.hashSync(data.password,user.password);
+            let check=bcrypt.compareSync(data.password,user.password);
             if(check){
+                delete user.password;
                 return user;
             }else{
                 return {err:"Email hoặc mật khẩu không đúng"}

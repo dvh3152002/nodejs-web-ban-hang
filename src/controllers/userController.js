@@ -10,11 +10,20 @@ let handleLogin=async(req,res)=>{
         if(data.err){
             res.render('login',{error:data.err});
         }else{  
+            req.session.isAuthenticated=true;
+            req.session.authUser=data;
             res.redirect('/cartegory/list');
         }
     } catch (error) {
         console.log(error);
     }
+}
+
+
+let postLogout=(req,res)=>{
+    req.session.isAuthenticated=false;
+    req.session.authUser=null;
+    res.redirect('/login')
 }
 
 let getRegisterPage=(req,res)=>{
@@ -86,4 +95,4 @@ let deleteUser=async(req,res)=>{
 }
 
 module.exports={getLoginPage,handleLogin,getCreateUserPage,postRegister,getUserList,createNewUser,getEditUserPage,
-    updateUser,deleteUser,getRegisterPage}
+    updateUser,deleteUser,getRegisterPage,postLogout}

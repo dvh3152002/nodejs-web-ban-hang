@@ -4,15 +4,31 @@ import viewEngine from './config/viewEngine';
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 const cors=require('cors');
+const session=require("express-session");
 
 require('dotenv').config();
 
 let app = express();
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
+}))
 
 //config app
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
+app.use(async(req,res,next)=>{
+  if(req.session.isAuthenticated===null){
+    req.session.isAuthenticated=false;
+  }
+  res.locals.lcIsAuthenticated=req.session.isAuthenticated;
+  res.locals.lcAuthUser=req.session.authUser;
+  next();
+})
 
 viewEngine(app);
 initWebRoutes(app);
