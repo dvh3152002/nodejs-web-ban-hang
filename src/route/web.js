@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
+import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
 import cartegoryController from '../controllers/cartegoryController';
 import menuController from '../controllers/menuController';
@@ -8,7 +9,7 @@ import productController from '../controllers/productController';
 import sliderController from '../controllers/sliderController';
 import settingController from '../controllers/settingController';
 import roleController from '../controllers/roleController';
-import authorization from '../middleware/authorization'
+import authorization from '../middleware/authorization';
 
 var appRoot = require('app-root-path');
 
@@ -37,66 +38,68 @@ const imageFilter = function (req, file, cb) {
 let upload = multer({ storage: storage, fileFilter: imageFilter });
 
 let initWebRoutes=(app)=>{
+    router.get("/",homeController.getHomePage);
+    router.get("/cart",homeController.getCartShopPage);
+
     router.get('/register',userController.getRegisterPage);
     router.post('/register',userController.postRegister);
-    router.get('/login',userController.getLoginPage);
+    router.get('/login',authorization.checkLogin,userController.getLoginPage);
     router.post('/login',userController.handleLogin);
     router.post('/logout',userController.postLogout)
-    router.get('/user/list',authorization.checkLogin,userController.getUserList);
-    router.get('/user/create',authorization.checkLogin,userController.getCreateUserPage);
-    router.post('/create-new-user',authorization.checkLogin,userController.createNewUser);
-    router.get('/user/edit/:id',authorization.checkLogin,userController.getEditUserPage);
-    router.post('/user/update/:id',authorization.checkLogin,userController.updateUser);
-    router.post('/user/delete',authorization.checkLogin,userController.deleteUser);
+    router.get('/userList',authorization.checkPerformission,userController.getUserList);
+    router.get('/userCreate',authorization.checkPerformission,userController.getCreateUserPage);
+    router.post('/userCreate',authorization.checkPerformission,userController.createNewUser);
+    router.get('/userEdit/:id',authorization.checkPerformission,userController.getEditUserPage);
+    router.post('/userEdit/:id',authorization.checkPerformission,userController.updateUser);
+    router.post('/userDelete',authorization.checkPerformission,userController.deleteUser);
 
-    router.get('/cartegory/list',authorization.checkLogin,cartegoryController.getCartegoryList);
-    router.get('/cartegory/create',authorization.checkLogin,cartegoryController.getCreateCartegoryPage);
-    router.post('/create-new-cartegory',authorization.checkLogin,cartegoryController.createNewCartegory);
-    router.get('/cartegory/edit/:id',authorization.checkLogin,cartegoryController.getEditCartegoryPage);
-    router.post('/cartegory/update/:id',authorization.checkLogin,cartegoryController.updateCartegory);
-    router.post('/cartegory/delete',authorization.checkLogin,cartegoryController.deleteCartegory);
+    router.get('/cartegoryList',authorization.checkPerformission,cartegoryController.getCartegoryList);
+    router.get('/cartegoryCreate',authorization.checkPerformission,cartegoryController.getCreateCartegoryPage);
+    router.post('/cartegoryCreate',authorization.checkPerformission,cartegoryController.createNewCartegory);
+    router.get('/cartegoryEdit/:id',authorization.checkPerformission,cartegoryController.getEditCartegoryPage);
+    router.post('/cartegoryEdit/:id',authorization.checkPerformission,cartegoryController.updateCartegory);
+    router.post('/cartegoryDelete',authorization.checkPerformission,cartegoryController.deleteCartegory);
 
-    router.get('/menu/list',authorization.checkLogin,menuController.getMenuList);
-    router.get('/menu/create',authorization.checkLogin,menuController.getCreateMenuPage);
-    router.post('/create-new-menu',menuController.createNewMenu);
-    router.get('/menu/edit/:id',authorization.checkLogin,menuController.getEditMenuPage);
-    router.post('/menu/update/:id',menuController.updateMenu);
-    router.post('/menu/delete',menuController.deleteMenu);
+    router.get('/menuList',authorization.checkPerformission,menuController.getMenuList);
+    router.get('/menuCreate',authorization.checkPerformission,menuController.getCreateMenuPage);
+    router.post('/menuCreate',authorization.checkPerformission,menuController.createNewMenu);
+    router.get('/menuEdit/:id',authorization.checkPerformission,menuController.getEditMenuPage);
+    router.post('/menuEdit/:id',authorization.checkPerformission,menuController.updateMenu);
+    router.post('/menuDelete',menuController.deleteMenu);
 
-    router.get('/product/list',authorization.checkLogin,productController.getProductList);
-    router.get('/product/create',authorization.checkLogin,productController.getCreateProductPage);
-    router.post('/create-new-product',upload.fields([
+    router.get('/productList',authorization.checkPerformission,productController.getProductList);
+    router.get('/productCreate',authorization.checkPerformission,productController.getCreateProductPage);
+    router.post('/productCreate',upload.fields([
         {name:'image_details', maxCount:5},
         {name:"feature_image"}
     ]),
     productController.createNewProduct);
-    router.get('/product/edit/:id',authorization.checkLogin,productController.getEditProductPage);
-    router.post('/product/update/:id',upload.fields([
+    router.get('/productEdit/:id',authorization.checkPerformission,productController.getEditProductPage);
+    router.post('/productEdit/:id',upload.fields([
         {name:'image_details', maxCount:5},
         {name:"feature_image"}
     ]),productController.updateProduct);
-    router.post('/product/delete',productController.deleteProduct);
+    router.post('/productDelete',productController.deleteProduct);
+    router.get('/getDetailProductShop/:id',productController.getDetailProductShop)
 
-    router.get('/slider/list',authorization.checkLogin,sliderController.getSliderList);
-    router.get('/slider/create',authorization.checkLogin,sliderController.getCreateSliderPage);
-    router.post('/slider/delete',sliderController.deleteSlider);
-    router.post('/create-new-slider',upload.single('slider_image'),sliderController.createNewSlider);
-    router.get('/slider/edit/:id',authorization.checkLogin,sliderController.getEditSliderPage);
-    router.post('/slider/update/:id',upload.single('slider_image'),sliderController.updateSlider);
+    router.get('/sliderList',authorization.checkPerformission,sliderController.getSliderList);
+    router.get('/sliderCreate',authorization.checkPerformission,sliderController.getCreateSliderPage);
+    router.post('/sliderDelete',authorization.checkPerformission,sliderController.deleteSlider);
+    router.post('/sliderCreate',authorization.checkPerformission,upload.single('slider_image'),sliderController.createNewSlider);
+    router.get('/sliderEdit/:id',authorization.checkPerformission,sliderController.getEditSliderPage);
+    router.post('/sliderEdit/:id',authorization.checkPerformission,upload.single('slider_image'),sliderController.updateSlider);
 
-    router.get('/setting/list',authorization.checkLogin,settingController.getSettingList);
-    router.get('/setting/create',authorization.checkLogin,settingController.getCreateSettingPage);
-    router.post('/setting/delete',settingController.deleteSetting);
-    router.post('/create-new-setting',settingController.createNewSetting);
-    router.get('/setting/edit/:id',authorization.checkLogin,settingController.getEditSettingPage);
-    router.post('/setting/update/:id',settingController.updateSetting);
+    router.get('/settingList',authorization.checkPerformission,settingController.getSettingList);
+    router.get('/settingCreate',authorization.checkPerformission,settingController.getCreateSettingPage);
+    router.post('/settingDelete',authorization.checkPerformission,settingController.deleteSetting);
+    router.post('/settingCreate',authorization.checkPerformission,settingController.createNewSetting);
+    router.get('/settingEdit/:id',authorization.checkPerformission,settingController.getEditSettingPage);
+    router.post('/settingEdit/:id',authorization.checkPerformission,settingController.updateSetting);
 
-    router.get('/role/list',authorization.checkLogin,roleController.getRoleList);
-    router.get('/role/create',roleController.getCreateRolePage);
-    router.post('/create-new-role',roleController.createNewRole);
-    router.get('/role/edit/:id',roleController.getEditRolePage);
-    router.post('/role/update/:id',roleController.updateRole);
-    router.post('/role/delete',roleController.deleteRole);
+    router.get('/roleList',authorization.checkPerformission,roleController.getRoleList);
+    router.get('/roleEdit/:id',authorization.checkPerformission,roleController.getEditRolePage);
+    router.post('/roleEdit/:id',authorization.checkPerformission,roleController.updateRole);
+    router.post('/roleDelete',authorization.checkPerformission,roleController.deleteRole);
 
     return app.use('/',router);
 }

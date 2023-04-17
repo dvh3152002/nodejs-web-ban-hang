@@ -13,19 +13,23 @@ let hashPassword=(password)=>{
 
 let handleLogin=async(data)=>{
     try {
-        let user=await db.User.findOne({
-            where:{email:data.email}
-        })
-        if(user){
-            let check=bcrypt.compareSync(data.password,user.password);
-            if(check){
-                delete user.password;
-                return user;
-            }else{
-                return {err:"Email hoặc mật khẩu không đúng"}
-            }
+        if(!data.email || !data.password){
+            return;
         }else{
-            return {err:"Email hoặc mật khẩu không đúng"}
+            let user=await db.User.findOne({
+                where:{email:data.email}
+            })
+            if(user){
+                let check=bcrypt.compareSync(data.password,user.password);
+                if(check){
+                    delete user.password;
+                    return user;
+                }else{
+                    return;
+                }
+            }else{
+                return;
+            }
         }
     } catch (error) {
         console.log(error)
@@ -42,12 +46,24 @@ let getAllRole=async()=>{
 }
 
 let createNewUser=async(data)=>{
-    await db.User.create({
-        name:data.name,
-        email:data.email,
-        password:hashPassword(data.password),
-        role_id:data.role_id?data.role_id:'R4'
-    })
+    if(!data.email || !data.password || !data.name){
+        return false;
+    }else{
+        let user=db.User.findOne({
+            where:{email:data.email}
+        })
+        if(user){
+            return false;
+        }else{
+            await db.User.create({
+                name:data.name,
+                email:data.email,
+                password:hashPassword(data.password),
+                role_id:data.role_id?data.role_id:'R4'
+            })
+            return true;
+        }
+    }
 }
 
 let getAllUser=async()=>{

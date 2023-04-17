@@ -1,17 +1,4 @@
 import db from "../models";
-import partial from "./partial";
-
-let getSliderList=async()=>{
-    try {
-        let data=await db.Slider.findAll({
-            raw:true
-        });
-        partial.recurse(data,0,'');
-        return data;
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 let createNewSlider=async(data,dataImage)=>{
     await db.Slider.create({
@@ -24,9 +11,7 @@ let createNewSlider=async(data,dataImage)=>{
 
 let getAllSlider=async()=>{
     try {
-        let data=await db.Slider.findAll({
-            raw:true
-        })
+        let data=await db.Slider.findAll({})
         return data;
     } catch (error) {
         console.log(error)
@@ -85,6 +70,5 @@ let deleteSlider=async(id)=>{
     }
 }
 
-module.exports={createNewSlider,getAllSlider,getEditSlider,updateSlider,deleteSlider,
-    getSliderList
+module.exports={createNewSlider,getAllSlider,getEditSlider,updateSlider,deleteSlider
 }

@@ -26,7 +26,7 @@ let createNewSlider=async(req,res)=>{
             return res.send('Vui lòng chọn ảnh');
         }
         await sliderService.createNewSlider(req.body,req.file);
-        res.redirect("/slider/list");
+        res.redirect("/sliderList");
     } catch (error) {
         console.log(error);
     }
@@ -47,7 +47,7 @@ let updateSlider=async(req,res)=>{
             return res.send(req.fileValidationError);
         }
         await sliderService.updateSlider(req.params.id,req.body,req.file);
-        res.redirect('/slider/list');
+        res.redirect('/sliderList');
     } catch (error) {
         console.log(error);
     }
@@ -56,7 +56,7 @@ let updateSlider=async(req,res)=>{
 let deleteSlider=async(req,res)=>{
     try {
         await sliderService.deleteSlider(req.body.id);
-        res.redirect('/slider/list');
+        res.redirect('/sliderList');
     } catch (error) {
         console.log(error);
     }

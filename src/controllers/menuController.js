@@ -21,7 +21,7 @@ let getCreateMenuPage=async(req,res)=>{
 let createNewMenu=async(req,res)=>{
     try {
         await menuService.createNewMenu(req.body);
-        res.redirect('/menu/list');
+        res.redirect('/menuList');
     } catch (error) {
         console.log(error);
     }
@@ -40,7 +40,7 @@ let getEditMenuPage=async(req,res)=>{
 let updateMenu=async(req,res)=>{
     try {
         await menuService.updateMenu(req.params.id,req.body);
-        res.redirect('/menu/list');
+        res.redirect('/menuList');
     } catch (error) {
         console.log(error);
     }
@@ -49,7 +49,7 @@ let updateMenu=async(req,res)=>{
 let deleteMenu=async(req,res)=>{
     try {
         await menuService.deleteMenu(req.body.id);
-        res.redirect('/menu/list');
+        res.redirect('/menuList');
     } catch (error) {
         console.log(error);
     }

@@ -9,6 +9,15 @@ let getAllRole=async()=>{
     }
 }
 
+let getAllPermission=()=>{
+    try {
+        let data=db.Permission.findAll({});
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 let createNewRole=async(data)=>{
     await db.Role.create({
         name:data.name,
@@ -68,4 +77,4 @@ let deleteRole=async(id)=>{
     }
 }
 
-module.exports={createNewRole,getAllRole,getEditRole,updateRole,deleteRole,getAllRole}
+module.exports={createNewRole,getAllPermission,getAllRole,getEditRole,updateRole,deleteRole,getAllRole}

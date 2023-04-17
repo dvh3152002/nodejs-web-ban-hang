@@ -20,7 +20,7 @@ let getCreateSettingPage=async(req,res)=>{
 let createNewSetting=async(req,res)=>{
     try {
         await settingService.createNewSetting(req.body);
-        res.redirect('/setting/list');
+        res.redirect('/settingList');
     } catch (error) {
         console.log(error);
     }
@@ -38,7 +38,7 @@ let getEditSettingPage=async(req,res)=>{
 let updateSetting=async(req,res)=>{
     try {
         await settingService.updateSetting(req.params.id,req.body);
-        res.redirect('/setting/list');
+        res.redirect('/settingList');
     } catch (error) {
         console.log(error);
     }
@@ -47,7 +47,7 @@ let updateSetting=async(req,res)=>{
 let deleteSetting=async(req,res)=>{
     try {
         await settingService.deleteSetting(req.body.id);
-        res.redirect('/setting/list');
+        res.redirect('/settingList');
     } catch (error) {
         console.log(error);
     }

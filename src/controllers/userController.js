@@ -1,18 +1,21 @@
 import userService from '../services/userService';
 
 let getLoginPage=(req,res)=>{
-    res.render('login',{error:''});
+    res.render('login');
 }
 
 let handleLogin=async(req,res)=>{
     try {
         let data=await userService.handleLogin(req.body);
-        if(data.err){
-            res.render('login',{error:data.err});
+        if(!data){
+            req.session.isError=true;
+            res.redirect('login');
         }else{  
             req.session.isAuthenticated=true;
+            req.session.isError=false;
             req.session.authUser=data;
-            res.redirect('/cartegory/list');
+            res.cookie("user_id", data.id);
+            res.redirect('/cartegoryList');
         }
     } catch (error) {
         console.log(error);
@@ -23,6 +26,7 @@ let handleLogin=async(req,res)=>{
 let postLogout=(req,res)=>{
     req.session.isAuthenticated=false;
     req.session.authUser=null;
+    res.clearCookie("user_id");
     res.redirect('/login')
 }
 
@@ -32,8 +36,13 @@ let getRegisterPage=(req,res)=>{
 
 let postRegister=async(req,res)=>{
     try {
-        await userService.createNewUser(req.body);
-        res.redirect('/login');
+        let isError=await userService.createNewUser(req.body);
+        if(!isError){
+            req.session.isError=true;
+            res.redirect('/register');
+        }else{
+            res.redirect('/login');
+        }
     } catch (error) {
         console.log(error);
     }
@@ -60,7 +69,7 @@ let getUserList=async(req,res)=>{
 let createNewUser=async(req,res)=>{
     try {
         await userService.createNewUser(req.body);
-        res.redirect('/user/list');
+        res.redirect('/userList');
     } catch (error) {
         console.log(error);
     }
@@ -79,7 +88,7 @@ let getEditUserPage=async(req,res)=>{
 let updateUser=async(req,res)=>{
     try {
         await userService.updateUser(req.params.id,req.body);
-        res.redirect('/user/list');
+        res.redirect('/userList');
     } catch (error) {
         console.log(error);
     }
@@ -88,7 +97,7 @@ let updateUser=async(req,res)=>{
 let deleteUser=async(req,res)=>{
     try {
         await userService.deleteUser(req.body.id);
-        res.redirect('/user/list');
+        res.redirect('/userList');
     } catch (error) {
         console.log(error);
     }

@@ -263,6 +263,23 @@ let deleteProduct=async(id)=>{
     }
 }
 
+let getDetailProductShop=async(id)=>{
+    let data=await db.Product.findOne({
+        where:{id:id},
+        include: [
+            { model: db.Product_Image, attributes: ['image'],as:"productImageData"},
+            { model: db.Product_Tag, attributes: ['tag_id'],
+            include: [
+                { model: db.Tag, attributes: ['name'],as:"tagData"}
+            ],
+            as:"productTagData" }
+        ],
+        raw: false,
+        nest:true
+    })
+    return data;
+}
+
 module.exports={createNewProduct,getAllProduct,getEditProduct,updateProduct,deleteProduct,
-    getCartegoryList
+    getCartegoryList,getDetailProductShop
 }

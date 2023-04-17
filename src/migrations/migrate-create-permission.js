@@ -9,11 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      keyMap: {
+        type: Sequelize.STRING
+      },
       name: {
         type: Sequelize.STRING
       },
-      display_name: {
-        type: Sequelize.STRING
+      url_name:{
+        type:Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

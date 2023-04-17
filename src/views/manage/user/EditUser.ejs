@@ -13,7 +13,7 @@
         <div class="manage-right">
             <div class="row mt-5">
                 <div class="col-12"><h3>Thêm user</h3></div>
-                <form action="/user/update/<%=user.id%>" method="post" class="col-6">
+                <form action="/userEdit/<%=user.id%>" method="post" class="col-6">
                     <div class="form-group">
                         <label>Họ tên</label>
                         <input value="<%=user.name%>" type="text" class="form-control" name="name" placeholder="Nhập họ tên">
@@ -29,10 +29,10 @@
                         <select class="form-control select2_role" name="role_id">
                             <option value="0">Chọn vai trò</option>
                             <% for(let i=0; i<role.length; i++){ %>
-                                <% if(user.role_id===role[i].id){ %>
-                                    <option selected value="<%=role[i].id%>"><%=role[i].name%></option>
+                                <% if(user.role_id===role[i].keyMap){ %>
+                                    <option selected value="<%=role[i].keyMap%>"><%=role[i].name%></option>
                                 <% }else{ %>
-                                    <option value="<%=role[i].id%>"><%=role[i].name%></option>
+                                    <option value="<%=role[i].keyMap%>"><%=role[i].name%></option>
                                 <% } %>
                             <% } %>
                         </select>

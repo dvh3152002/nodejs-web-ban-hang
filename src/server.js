@@ -5,6 +5,7 @@ import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 const cors=require('cors');
 const session=require("express-session");
+const cookieParser = require('cookie-parser')
 
 require('dotenv').config();
 
@@ -26,9 +27,11 @@ app.use(async(req,res,next)=>{
     req.session.isAuthenticated=false;
   }
   res.locals.lcIsAuthenticated=req.session.isAuthenticated;
+  res.locals.isError=req.session.isError;
   res.locals.lcAuthUser=req.session.authUser;
   next();
 })
+app.use(cookieParser())
 
 viewEngine(app);
 initWebRoutes(app);

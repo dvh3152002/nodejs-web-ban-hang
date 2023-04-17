@@ -11,8 +11,7 @@ let getRoleList=async(req,res)=>{
 
 let getCreateRolePage=async(req,res)=>{
     try {
-        // let data=await roleService.getRoleList()
-        let data=[];
+        let data=await roleService.getAllPermission()
         res.render('manage/role/CreateRole',{data});
     } catch (error) {
         console.log(error);
@@ -22,7 +21,7 @@ let getCreateRolePage=async(req,res)=>{
 let createNewRole=async(req,res)=>{
     try {
         await roleService.createNewRole(req.body);
-        res.redirect('/role/list');
+        res.redirect('/roleList');
     } catch (error) {
         console.log(error);
     }
@@ -30,7 +29,7 @@ let createNewRole=async(req,res)=>{
 
 let getEditRolePage=async(req,res)=>{
     try {
-        let data=await roleService.getRoleList();
+        let data=await roleService.getAllPermission();
         let role=await roleService.getEditRole(req.params.id);
         res.render('manage/role/EditRole',{role:role,data:data});
     } catch (error) {
@@ -41,7 +40,7 @@ let getEditRolePage=async(req,res)=>{
 let updateRole=async(req,res)=>{
     try {
         await roleService.updateRole(req.params.id,req.body);
-        res.redirect('/role/list');
+        res.redirect('/roleList');
     } catch (error) {
         console.log(error);
     }
@@ -50,7 +49,7 @@ let updateRole=async(req,res)=>{
 let deleteRole=async(req,res)=>{
     try {
         await roleService.deleteRole(req.body.id);
-        res.redirect('/role/list');
+        res.redirect('/roleList');
     } catch (error) {
         console.log(error);
     }

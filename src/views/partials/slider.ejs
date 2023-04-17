@@ -2,31 +2,33 @@
     <ul class="manage-down">
         <li>
             <i class="fas fa-list-ul"></i>
-            <a href="/cartegory/list">Danh mục sản phẩm</a>
+            <a href="/cartegoryList">Danh mục sản phẩm</a>
         </li>
         <li>
             <i class="fas fa-list-ul"></i>
-            <a href="/menu/list">Menus</a>
+            <a href="/menuList">Menus</a>
         </li>
         <li>
             <i class="fas fa-list-ul"></i>
-            <a href="/product/list">Sản phẩm</a>
+            <a href="/productList">Sản phẩm</a>
         </li>
         <li>
             <i class="fas fa-list-ul"></i>
-            <a href="/slider/list">Slider</a>
+            <a href="/sliderList">Slider</a>
         </li>
         <li>
             <i class="fas fa-list-ul"></i>
-            <a href="/setting/list">Setting</a>
+            <a href="/settingList">Setting</a>
         </li>
         <li>
             <i class="fas fa-list-ul"></i>
-            <a href="/user/list">Danh sách nhân viên</a>
+            <a href="/userList">Danh sách nhân viên</a>
         </li>
-        <li>
-            <i class="fas fa-list-ul"></i>
-            <a href="/role/list">Danh sách vai trò</a>
-        </li>
+        <%if(lcAuthUser.role_id==='R1'){%>
+            <li>
+                <i class="fas fa-list-ul"></i>
+                <a href="/roleList">Danh sách vai trò</a>
+            </li>
+        <%}%>
     </ul>
 </div>

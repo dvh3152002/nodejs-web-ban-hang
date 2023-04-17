@@ -1,4 +1,5 @@
-import productService from '../services/productService';
+import productService from '../services/productService'
+import menuService from '../services/menuService';
 
 let getProductList=async(req,res)=>{
     try {
@@ -30,7 +31,7 @@ let createNewProduct=async(req,res)=>{
             return res.send('Bạn chưa chọn ảnh chi tiết');
         }
         await productService.createNewProduct(req.body,req.files);
-        res.redirect("/product/list");
+        res.redirect("/productList");
     } catch (error) {
         console.log(error);
     }
@@ -57,7 +58,7 @@ let updateProduct=async(req,res)=>{
             return res.send(req.fileValidationError);
         }
         await productService.updateProduct(req.params.id,req.body,req.files);
-        res.redirect('/product/list');
+        res.redirect('/productList');
     } catch (error) {
         console.log(error);
     }
@@ -66,12 +67,24 @@ let updateProduct=async(req,res)=>{
 let deleteProduct=async(req,res)=>{
     try {
         await productService.deleteProduct(req.body.id);
-        res.redirect('/product/list');
+        res.redirect('/productList');
     } catch (error) {
         console.log(error);
     }
 }
 
+let getDetailProductShop=async(req,res)=>{
+    let data=await productService.getDetailProductShop(req.params.id);
+    let menus=await menuService.getAllMenu();
+
+    res.render("shop/detailProductShop",{
+        menus,
+        data,
+        dataDetailProductImage:data.productImageData,
+        dataTagProduct:data.productTagData
+    });
+}
+
 module.exports={
-    getProductList,getCreateProductPage,createNewProduct,getEditProductPage,updateProduct,deleteProduct
+    getProductList,getCreateProductPage,createNewProduct,getEditProductPage,updateProduct,deleteProduct,getDetailProductShop
 }
