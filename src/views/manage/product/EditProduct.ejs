@@ -31,7 +31,7 @@
                         <input onchange="onChangeSingleImage(event)" class="form-control-file" type="file" placeholder="Ảnh đại diện" name="feature_image" id="formFile" hidden>
                         <div class="col-12 my-2">
                             <div class="row">
-                                <img id="img" class="product-img" src="/images/<%=dataProduct.feature_image%>" alt="">
+                                <img id="img" class="product-img" src="data:image/jpeg;base64,<%=Buffer.from(dataProduct.feature_image, 'base64').toString('binary')%>" alt="">
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="row mt-2" >
                             <div id="image-details-before">
                                 <% for(let i=0; i<productImageData.length; i++){ %>
-                                    <img class="product-img" src="/images/<%=productImageData[i].image %>" alt="">
+                                    <img class="product-img" src="data:image/jpeg;base64,<%=Buffer.from(productImageData[i].image, 'base64').toString('binary')%>" alt="">
                                 <% } %>
                             </div>
                             <div id="image-details"></div>

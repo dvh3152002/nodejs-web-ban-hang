@@ -1,17 +1,23 @@
 import db from "../models";
+import partial from "./partial";
 
 let createNewSlider=async(data,dataImage)=>{
     await db.Slider.create({
         name:data.name,
         description:data.description,
-        image:dataImage.filename,
-        image_path:dataImage.path
+        image:partial.getBase64(dataImage)
     })
 }
 
 let getAllSlider=async()=>{
     try {
         let data=await db.Slider.findAll({})
+        if(data && data.length>0){
+            data.map(item=>{
+                item.image = `data:image/jpeg;base64,${Buffer.from(item.image, 'base64').toString('binary')}`;
+                return item;
+            })
+        }
         return data;
     } catch (error) {
         console.log(error)
@@ -24,6 +30,9 @@ let getEditSlider=async(id)=>{
             where: { id: id },
             raw: true
         });
+        if(data){
+            data.image= `data:image/jpeg;base64,${Buffer.from(data.image, 'base64').toString('binary')}`;
+        }
         return data;
     } catch (error) {
         console.log(error);
@@ -42,8 +51,7 @@ let updateSlider=async(id,data,sliderImage)=>{
             slider.name=data.name;
             slider.description=data.description;
             if(sliderImage){
-                slider.image=sliderImage.filename;
-                slider.image_path=sliderImage.path;
+                slider.image=partial.getBase64(sliderImage);
             }
             await slider.save();
         }else{
@@ -61,10 +69,7 @@ let deleteSlider=async(id)=>{
             where:{id:id},
             raw:false
         })
-        if(data){
-            partial.deleteImg(data.image_path);
-            await data.destroy();
-        }
+        await data.destroy();
     } catch (error) {
         console.log(error);
     }

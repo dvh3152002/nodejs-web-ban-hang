@@ -16,8 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Slider.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    image: DataTypes.STRING,
-    image_path: DataTypes.STRING,
+    image: DataTypes.BLOB,
   }, {
     sequelize,
     modelName: 'Slider',

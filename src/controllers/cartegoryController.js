@@ -29,7 +29,6 @@ let createNewCartegory=async(req,res)=>{
 
 let getEditCartegoryPage=async(req,res)=>{
     try {
-        console.log(req.url.split("/",4));
         let data=await cartegoryService.getCartegoryList();
         let cartegory=await cartegoryService.getEditCartegory(req.params.id);
         res.render('manage/cartegory/EditCartegory',{cartegory:cartegory,data:data});

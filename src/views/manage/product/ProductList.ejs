@@ -33,7 +33,7 @@
                           <td class="col-2"><%= data[i].name %></td>
                           <td class="col-2"><%= data[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
                           <td class="col-2">
-                            <img class="product-img" src="/images/<%= data[i].feature_image %>" alt="">
+                            <img class="product-img" src="<%=data[i].feature_image%>" alt="">
                           </td>
                           <td class="col-2"><%= data[i].cartegoryData&&data[i].cartegoryData.name?data[i].cartegoryData.name:'null' %></td>
                           <td class="col-2">

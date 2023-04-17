@@ -16,26 +16,24 @@ let getCartegoryList=async()=>{
 let createNewProduct=async(data,dataImage)=>{
     try {
         //Tạo product
+        let productImg=dataImage.feature_image[0]
         let product=await db.Product.create({
             name:data.name,
             price:data.price,
-            feature_image:dataImage.feature_image[0].filename,
-            feature_image_path:dataImage.feature_image[0].path,
+            feature_image:partial.getBase64(productImg),
             content:data.content,
             cartegory_id:data.cartegory_id,
             user_id:'1'
-            });
+        });
 
             //Tạo Product_Image
             let image_details=dataImage.image_details;
             let dataProductImg=[];
             if(image_details && image_details.length>0){
-                image_details.map(item=>{
-                    let object={
-                        product_id:product.id,
-                        image:item.filename,
-                        image_path:item.path
-                    }
+                image_details.map(async(item)=>{
+                    let object={};
+                    object.product_id=product.id,
+                    object.image=partial.getBase64(item);
                     dataProductImg.push(object);
                 });
             }
@@ -61,7 +59,7 @@ let createNewProduct=async(data,dataImage)=>{
                     tag_id:tag[0].id
                 })
             }
-        }else{
+        }else if(dataTags && dataTags.length>0){
             for(let i=0;i<dataTags.length;i++){
                 let tag=await db.Tag.findOrCreate({
                     where:{
@@ -97,6 +95,12 @@ let getAllProduct=async()=>{
             ],
             nest:true
         })
+        if (data && data.length > 0) {
+            data.map(item => {
+                item.feature_image = `data:image/jpeg;base64,${Buffer.from(item.feature_image, 'base64').toString('binary')}`;
+                return item;
+            })
+        }
         return data;
     } catch (error) {
         console.log(error)
@@ -143,37 +147,26 @@ let updateProduct=async(id,data,dataImage)=>{
             product.user_id='2';
             if(dataImage){
                 if(dataImage.feature_image){
-                    partial.deleteImg(product.feature_image_path);
-                    product.feature_image=dataImage.feature_image[0].filename;
-                    product.feature_image_path=dataImage.feature_image[0].path;
+                    product.feature_image=await partial.getBase64(dataImage.feature_image[0]);
                 }
                 if(dataImage.image_details){
-                    let dataProductImg=await db.Product_Image.findAll({
-                        where:{product_id:product.id},
-                        raw:false
-                    });
-                    dataProductImg.map(item=>{
-                        partial.deleteImg(item.image_path)
-                    })
-                    await  db.Product_Image.destroy({
+                    await db.Product_Image.destroy({
                         where:{
                             product_id:product.id
                         }
                     });
                     let image_details=dataImage.image_details;
-                    let dataProductImgNew=[];
+                    let dataProductImg=[];
                     if(image_details && image_details.length>0){
-                        image_details.map(item=>{
-                            let object={
-                                product_id:product.id,
-                                image:item.filename,
-                                image_path:item.path
-                            }
-                            dataProductImgNew.push(object);
+                        image_details.map(async(item)=>{
+                            let object={};
+                            object.product_id=product.id,
+                            object.image=partial.getBase64(item);
+                            dataProductImg.push(object);
                         });
                     }
-                    if(dataProductImgNew && dataProductImgNew.length>0){
-                        await db.Product_Image.bulkCreate(dataProductImgNew);
+                    if(dataProductImg && dataProductImg.length>0){
+                        await db.Product_Image.bulkCreate(dataProductImg);
                     }
                 }
             }
@@ -195,7 +188,7 @@ let updateProduct=async(id,data,dataImage)=>{
                         tag_id:tag[0].id
                     })
                 }
-            }else{
+            }else if(dataTags &&dataTags.length){
                 for(let i=0;i<dataTags.length;i++){
                     let tag=await db.Tag.findOrCreate({
                         where:{
@@ -229,33 +222,16 @@ let deleteProduct=async(id)=>{
             raw:false
         });
         if(dataProduct){
-            let dataProductImg=await db.Product_Image.findAll({
-                where:{product_id:dataProduct.id},
-                raw:false
+            await db.Product_Image.destroy({
+                where:{
+                    product_id:dataProduct.id
+                }
             });
-            let dataProductTag=await db.Product_Tag.findAll({
-                where:{product_id:dataProduct.id},
-                raw:false
+            await db.Product_Tag.destroy({
+                where:{
+                    product_id:dataProduct.id
+                }
             });
-
-            if(dataProductImg && dataProductImg.length>0){
-                dataProductImg.map(item=>{
-                    partial.deleteImg(item.image_path)
-                })
-                await  db.Product_Image.destroy({
-                    where:{
-                        product_id:dataProduct.id
-                    }
-                });
-            }
-            if(dataProductTag && dataProductTag.length>0){
-                await  db.Product_Tag.destroy({
-                    where:{
-                        product_id:dataProduct.id
-                    }
-                });
-            }
-            partial.deleteImg(dataProduct.feature_image_path);
             await dataProduct.destroy();
         }
     } catch (error) {
@@ -277,6 +253,7 @@ let getDetailProductShop=async(id)=>{
         raw: false,
         nest:true
     })
+    data.view_count=data.view_count+1;
     return data;
 }
 

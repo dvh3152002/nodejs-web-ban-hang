@@ -21,12 +21,12 @@
         <div class="product-content">
             <div class="product-content-left">
                 <div class="product-big-img">
-                    <img src="/images/feature_image-1681110185742.jpg" alt="">
+                    <img src="data:image/jpeg;base64,<%=Buffer.from(data.feature_image, 'base64').toString('binary')%>" alt="">
                 </div>
 
                 <div class="product-small-img">
                     <%for(let i=0;i<dataDetailProductImage.length;i++){%>
-                        <img src="/images/<%=dataDetailProductImage[i].image%>" alt="">
+                        <img src="data:image/jpeg;base64,<%=Buffer.from(dataDetailProductImage[i].image, 'base64').toString('binary')%>" alt="">
                     <%}%>                 
                 </div>
             </div>

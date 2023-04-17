@@ -16,10 +16,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       feature_image:{
-        type:Sequelize.STRING
-      },
-      feature_image_path:{
-        type:Sequelize.STRING
+        type:Sequelize.BLOB('long')
       },
       content:{
         type:Sequelize.TEXT('long')
@@ -29,6 +26,10 @@ module.exports = {
       },
       cartegory_id:{
         type:Sequelize.INTEGER
+      },
+      view_count:{
+        type:Sequelize.INTEGER,
+        defaultValue:0
       },
       createdAt: {
         allowNull: false,
