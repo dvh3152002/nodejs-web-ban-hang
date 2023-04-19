@@ -17,7 +17,7 @@
 </head>
 <body>
     <%- include('../shop/menuShop.ejs') %>
-    <div class="container mt-2">
+    <div class="body container mt-2">
         <div class="title text-center text-uppercase text-danger">
             <h4>Giỏ hàng</h4>
         </div>
@@ -26,52 +26,53 @@
             <thead>
               <tr>
                 <th scope="col">STT</th>
-                <th scope="col">Tên sản phẩm</th>
                 <th scope="col">Hình ảnh</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Đơn giá</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Tổng giá</th>
-                <th scope="col">Action</th>
+                <th scope="col">Xóa</th>
               </tr>
             </thead>
             <tbody>
-              <form action="" method="post">
-                <tr>
-                    <th scope="row" class="col-2">1</th>
-                    <td class="col-2">abc</td>
-                    <td class="col-2">
-                      <img class="product-img" src="/images/feature_image-1681110185742.jpg" alt="">
-                    </td>
-                    <td class="col-2"><input type="number" name="number" value="2"></td>
-                    <td class="col-2">1230000000VND</td>
-                    <td class="col-2">
-                        <button href="" class="btn"><i class="far fa-trash-alt"></i></button>
-                    </td>
-                  </tr>
+                <%if(products.length<=0){%>
                   <tr>
-                    <th scope="row" class="col-2">1</th>
-                    <td class="col-2">abc</td>
-                    <td class="col-2">
-                      <img class="product-img" src="/images/feature_image-1681110185742.jpg" alt="">
-                    </td>
-                    <td class="col-2"><input type="number" name="quantity" value="2"></td>
-                    <td class="col-2">1230000000VND</td>
-                    <td class="col-2">
-                        <button href="" class="btn"><i class="far fa-trash-alt"></i></button>
-                    </td>
+                    <td colspan="7" align="center">Chưa có sản phẩm trong giỏ hàng</td>
                   </tr>
-                  <tr>
-                    <th scope="row" class="col-2">1</th>
-                    <td class="col-2">abc</td>
-                    <td class="col-2">
-                      <img class="product-img" src="/images/feature_image-1681110185742.jpg" alt="">
-                    </td>
-                    <td class="col-2"><input type="number" name="number" value="2"></td>
-                    <td class="col-2">1230000000VND</td>
-                    <td class="col-2">
-                        <button href="" class="btn"><i class="far fa-trash-alt"></i></button>
-                    </td>
-                  </tr>
-              </form>
+                <%}else{%>
+                  <%let total=0%>
+                  <% for(let i=0;i<products.length;i++){%>
+                    <%total=total+products[i].price * products[i].quantity%>
+                    <form action="/deleteToCart/<%=products[i].id%>" method="post">
+                        <tr>
+                          <td scope="row" class="col-1"><%=i+1%></td>
+                          <td class="col-2">
+                            <img class="product-img" src="<%=products[i].feature_image%>" alt="">
+                          </td>
+                          <td class="col-2"><%=products[i].name%></td>
+                          <td class="col-2"><%=products[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></td>
+                          <td class="col-2">
+                            <a class="btn btn-cart <%=products[i].quantity==1?'disable':''%>" href="/updateToCart/<%=products[i].id%>?action=remove">-</a>
+                            <span><%=products[i].quantity%></span>
+                            <a class="btn btn-cart" href="/updateToCart/<%=products[i].id%>?action=add">+</a>
+                          </td>
+                          <td class="col-2"><%=(products[i].price * products[i].quantity).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></td>
+                          <td class="col-1">
+                              <button class="btn"><i class="far fa-trash-alt"></i></button>
+                          </td>
+                        </tr>
+                    </form>
+                  <%}%>
+                    <tr>
+                      <td colspan="7" align="right"><b>Total: </b><%=total.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})%></td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" align="right">
+                        <a class="btn btn-warning" href="/">Mua thêm sản phẩm khác</a>
+                        <a class="btn btn-info" href="">Thanh toán</a>
+                      </td>
+                    </tr>
+                  <%}%>
             </tbody>
         </table>
     </div>

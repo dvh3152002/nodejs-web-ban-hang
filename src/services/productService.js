@@ -20,7 +20,7 @@ let createNewProduct=async(data,dataImage)=>{
         let product=await db.Product.create({
             name:data.name,
             price:data.price,
-            feature_image:partial.getBase64(productImg),
+            feature_image:partial.getBase64(productImg.path),
             content:data.content,
             cartegory_id:data.cartegory_id,
             user_id:'1'
@@ -33,7 +33,7 @@ let createNewProduct=async(data,dataImage)=>{
                 image_details.map(async(item)=>{
                     let object={};
                     object.product_id=product.id,
-                    object.image=partial.getBase64(item);
+                    object.image=partial.getBase64(item.path);
                     dataProductImg.push(object);
                 });
             }
@@ -147,7 +147,7 @@ let updateProduct=async(id,data,dataImage)=>{
             product.user_id='2';
             if(dataImage){
                 if(dataImage.feature_image){
-                    product.feature_image=await partial.getBase64(dataImage.feature_image[0]);
+                    product.feature_image=partial.getBase64(dataImage.feature_image[0].path);
                 }
                 if(dataImage.image_details){
                     await db.Product_Image.destroy({
@@ -161,7 +161,7 @@ let updateProduct=async(id,data,dataImage)=>{
                         image_details.map(async(item)=>{
                             let object={};
                             object.product_id=product.id,
-                            object.image=partial.getBase64(item);
+                            object.image=partial.getBase64(item.path);
                             dataProductImg.push(object);
                         });
                     }
@@ -254,9 +254,55 @@ let getDetailProductShop=async(id)=>{
         nest:true
     })
     data.view_count=data.view_count+1;
+    await data.save();
     return data;
 }
 
+let getProductOrderById=async(id,limit)=>{
+    try {
+        let data=await db.Product.findAll({
+            raw:false,
+            order: [
+                [id,'DESC']
+            ],
+            limit:limit,
+        })
+        if (data && data.length > 0) {
+            data.map(item => {
+                item.feature_image = `data:image/jpeg;base64,${Buffer.from(item.feature_image, 'base64').toString('binary')}`;
+                return item;
+            })
+        }
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+let getProductToCart=async(cart)=>{
+    try {
+        let products=[];
+        if(cart && cart.length>0){
+            for(let i=0;i<cart.length;i++){
+                let object=await db.Product.findOne({
+                    where:{id:cart[i].product_id},
+                    attributes: {
+                        exclude: ['content']
+                    }
+                })
+                if(object){
+                    object.feature_image = `data:image/jpeg;base64,${Buffer.from(object.feature_image, 'base64').toString('binary')}`;
+                    object.quantity=cart[i].quantity
+                    products.push(object)
+                }
+            }
+        }
+        return products;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports={createNewProduct,getAllProduct,getEditProduct,updateProduct,deleteProduct,
-    getCartegoryList,getDetailProductShop
+    getCartegoryList,getDetailProductShop,getProductOrderById,getProductToCart
 }

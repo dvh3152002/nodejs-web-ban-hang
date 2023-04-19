@@ -18,7 +18,7 @@
 <body>
     <%- include('../shop/menuShop.ejs') %>
     <div class="container mt-2">
-        <div class="product-content">
+        <form action="/addToCart/<%=data.id%>" method="post" class="product-content">
             <div class="product-content-left">
                 <div class="product-big-img">
                     <img src="data:image/jpeg;base64,<%=Buffer.from(data.feature_image, 'base64').toString('binary')%>" alt="">
@@ -39,7 +39,7 @@
 
                 <div class="quantity">
                     <h4>Số lượng</h4>
-                    <input type="number" min="0" value="1">
+                    <input name="quantity" type="number" min="1" value="1">
                 </div>
 
                 <div class="product-tag">
@@ -49,13 +49,13 @@
                     <%}%> 
                 </div>
 
-                <div class="product-button">
+                <form class="product-button">
                     <button>
                         <i class="fas fa-shopping-cart"></i>
-                        <p>Mua hàng</p>
+                        <p>Thêm vào giỏ</p>
                     </button>
-                    <button>Tìm tại cửa hàng</button>
-                </div>
+                    <a class="btn btn-outline-dark mb-3" href="/">Mua tiếp</a>
+                </form>
                 <div class="product-icon">
                     <div class="icon-item">
                         <i class="fas fa-phone-alt"></i>

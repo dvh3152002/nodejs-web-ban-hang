@@ -9,10 +9,10 @@ let recurse=(data,id,text)=>{
     })
 }
 
-let getBase64=(data)=>{
-    let img = fs.readFileSync(data.path);
+let getBase64=(path)=>{
+    let img = fs.readFileSync(path);
     let encode_img = img.toString('base64');
-    fs.unlink(data.path, function (err) {
+    fs.unlink(path, function (err) {
         if (err) console.log(err);
         console.log('File deleted!');
     });

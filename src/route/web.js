@@ -9,6 +9,7 @@ import productController from '../controllers/productController';
 import sliderController from '../controllers/sliderController';
 import settingController from '../controllers/settingController';
 import roleController from '../controllers/roleController';
+import orderController from '../controllers/orderController';
 import authorization from '../middleware/authorization';
 
 var appRoot = require('app-root-path');
@@ -40,6 +41,7 @@ let upload = multer({ storage: storage, fileFilter: imageFilter });
 let initWebRoutes=(app)=>{
     router.get("/",homeController.getHomePage);
     router.get("/cart",homeController.getCartShopPage);
+    router.get('/payShopPage',homeController.getPayShopPage);
 
     router.get('/register',userController.getRegisterPage);
     router.post('/register',userController.postRegister);
@@ -100,6 +102,10 @@ let initWebRoutes=(app)=>{
     router.get('/roleEdit/:id',authorization.checkPerformission,roleController.getEditRolePage);
     router.post('/roleEdit/:id',authorization.checkPerformission,roleController.updateRole);
     router.post('/roleDelete',authorization.checkPerformission,roleController.deleteRole);
+
+    router.post('/addToCart/:id',orderController.addToCart);
+    router.get('/updateToCart/:id',orderController.updateToCart);
+    router.post('/deleteToCart/:id',orderController.deleteToCart);
 
     return app.use('/',router);
 }

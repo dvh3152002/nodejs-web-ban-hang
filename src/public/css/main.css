@@ -387,6 +387,11 @@ footer{
     width: 160px;
 }
 
+.product-button>a{
+    width: 160px;
+    text-transform: uppercase;
+}
+
 .product-button>button:last-child{
     transition: all 0.3s ease;
 }
@@ -436,32 +441,41 @@ footer{
     align-items: center;
 }
 
-.body-product .show-product .card{
+.body-product .show-product .card-image{
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 20px;
 }
 
-.body-product .show-product .card .items{
+.body-product .show-product .card-image .items{
     position: relative;
     display: block;
+    width: 200px;
+    height: 250px;
+
     box-sizing: border-box;
 }
 
-.body-product .show-product .card .items .text h3,.body-product .show-product .card .items .text p{
+.body-product .show-product .card-image .items .text h3,.body-product .show-product .card-image .items .text p{
     text-align: center;
+    font-size: 20px;
 }
 
-.body-product .show-product .card .items .image img{
+.body-product .show-product .card-image .items .image img{
     width: 200px;
     border-radius: 20px;
 }
 
-.body-product .show-product .card .items .text{
+.body-product .show-product .card-image .items .text{
     font-weight: 500;
 }
 
-.body-product .show-product .card .items .button{
+.body-product .show-product .card-image .items .text{
+    text-align: left;
+    padding: 5px;
+}
+
+.body-product .show-product .items .button{
     opacity: 1;
     top: 100%;
     left: 50%;
@@ -471,13 +485,13 @@ footer{
     opacity: 0;
 }
 
-.body-product .show-product .card .items:hover .button{
+.body-product .show-product .items:hover .button{
     opacity: 1;
     top: 50%;
     transition: -0.5s;
 }
 
-.body-product .show-product .card .items .button a,.body-product .show-product .card .items .button button{
+.body-product .show-product .items .button a,.body-product .show-product .items .button button{
     display: inline-block;
     padding: 5px 10px;
     width: 150px;
@@ -490,11 +504,11 @@ footer{
     transition: 0.5s;
 }
 
-.body-product .show-product .card .items .button a:hover,.body-product .show-product .card .items .button button:hover{
+.body-product .show-product .items .button a:hover,.body-product .show-product .items .button button:hover{
     background-color: #fe2e64;
 }
 
-.body-product .show-product .card .items .button{
+.body-product .show-product .items .button{
     position: absolute;
     top: 40%;
     left: 50%;
@@ -502,12 +516,36 @@ footer{
     transform: translate(-50%,-50%);    
 }
 
-.body-product .show-product .card .items .button button{
+.body-product .show-product .items .button button{
     outline: none;
     border: none;
 }
 
-.body-product .show-product .card .items .text{
-    text-align: left;
-    padding: 5px;
+.pay-container{
+    display: flex;
+    gap: 30px;
+}
+
+.pay-title{
+    border-bottom: 1px solid #000;
+    margin-bottom: 10px;
+}
+
+.pay-title p{
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.change-quantity{
+    display: flex;
+    gap: 10px;
+}
+
+.disable{
+    pointer-events: none;
+    cursor: default;
+}
+
+.body{
+    min-height: 80vh;
 }
