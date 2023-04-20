@@ -547,5 +547,10 @@ footer{
 }
 
 .body{
-    min-height: 80vh;
+    min-height: 70vh;
+}
+
+.body .center{
+    text-align: center;
+    font-size: 20px;
 }

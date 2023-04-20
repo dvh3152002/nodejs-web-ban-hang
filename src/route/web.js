@@ -42,6 +42,7 @@ let initWebRoutes=(app)=>{
     router.get("/",homeController.getHomePage);
     router.get("/cart",homeController.getCartShopPage);
     router.get('/payShopPage',homeController.getPayShopPage);
+    router.post('/payToCart',homeController.payToCart);
 
     router.get('/register',userController.getRegisterPage);
     router.post('/register',userController.postRegister);
@@ -106,6 +107,7 @@ let initWebRoutes=(app)=>{
     router.post('/addToCart/:id',orderController.addToCart);
     router.get('/updateToCart/:id',orderController.updateToCart);
     router.post('/deleteToCart/:id',orderController.deleteToCart);
+    router.get('/OrderList',orderController.getOrderListPage);
 
     return app.use('/',router);
 }

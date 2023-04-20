@@ -61,4 +61,9 @@ const deleteToCart=(req,res)=>{
     res.redirect("back")
 }
 
-module.exports={addToCart,updateToCart,deleteToCart}
+const getOrderListPage=async(req,res)=>{
+    let customers=await orderService.getAllCustomer();
+    res.render('manage/order/OrderList',{customers});
+}
+
+module.exports={addToCart,updateToCart,deleteToCart,getOrderListPage}
