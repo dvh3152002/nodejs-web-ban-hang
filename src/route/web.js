@@ -108,6 +108,8 @@ let initWebRoutes=(app)=>{
     router.get('/updateToCart/:id',orderController.updateToCart);
     router.post('/deleteToCart/:id',orderController.deleteToCart);
     router.get('/OrderList',orderController.getOrderListPage);
+    router.get('/orderDetail/:id',orderController.detailOrder);
+    router.post('/orderDelete',orderController.deleteOrder);
 
     return app.use('/',router);
 }

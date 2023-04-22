@@ -5,7 +5,7 @@ let createNewSlider=async(data,dataImage)=>{
     await db.Slider.create({
         name:data.name,
         description:data.description,
-        image:partial.getBase64(dataImage)
+        image:partial.getBase64(dataImage.path)
     })
 }
 
@@ -51,7 +51,7 @@ let updateSlider=async(id,data,sliderImage)=>{
             slider.name=data.name;
             slider.description=data.description;
             if(sliderImage){
-                slider.image=partial.getBase64(sliderImage);
+                slider.image=partial.getBase64(sliderImage.path);
             }
             await slider.save();
         }else{

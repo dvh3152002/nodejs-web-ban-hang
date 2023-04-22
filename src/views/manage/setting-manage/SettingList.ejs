@@ -24,9 +24,9 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <form action="/settingDelete" method="post">
                       <% for(let i=0;i<data.length;i++){ %>
-                        <tr>
+                        <form action="/settingDelete" method="post">
+                          <tr>
                           <th scope="row" class="col-2"><%= i+1 %></th>
                           <td class="col-2"><%= data[i].config_key %></td>
                           <td class="col-2"><%= data[i].config_value%></td>
@@ -36,8 +36,8 @@
                               <button href="" class="btn btn-danger">Xóa</button>
                           </td>
                         </tr>
-                      <% } %>
                       </form>
+                      <% } %>
                     </tbody>
                 </table>
               </div>

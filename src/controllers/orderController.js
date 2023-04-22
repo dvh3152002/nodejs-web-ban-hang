@@ -66,4 +66,14 @@ const getOrderListPage=async(req,res)=>{
     res.render('manage/order/OrderList',{customers});
 }
 
-module.exports={addToCart,updateToCart,deleteToCart,getOrderListPage}
+const deleteOrder=async(req,res)=>{
+    await orderService.deleteOrder(req.body.id);
+    res.redirect("back")
+}
+
+const detailOrder=async(req,res)=>{
+    let data=await orderService.getCustomerById(req.params.id);
+    res.render('manage/order/detailOrder',{customer:data.customer,products:data.arrProduct});
+}
+
+module.exports={addToCart,updateToCart,deleteToCart,getOrderListPage,deleteOrder,detailOrder}

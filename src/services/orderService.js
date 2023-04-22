@@ -40,4 +40,49 @@ const getAllCustomer=async()=>{
     }
 }
 
-module.exports={payToCart,getAllCustomer}
+const deleteOrder=async(id)=>{
+    try {
+        await  db.Customer.destroy({
+            where:{
+                id:id
+            }
+        });
+        await db.Order.destroy({
+            where:{customer_id:id}
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getCustomerById=async(id)=>{
+    try {
+        let customer=await db.Customer.findAll({
+            where:{
+                id:id
+            },
+            include: [
+                { model: db.Order,as:"orderData"},
+            ],
+            raw:false,
+            nest:true     
+        })
+        let orderData=customer[0].orderData;
+        let arrProduct=[];
+        for(let i=0;i<orderData.length;i++){
+            let product=await db.Product.findOne({
+                where:{id:orderData[i].product_id},
+                attributes: ['name','feature_image']
+            })
+            product.feature_image= `data:image/jpeg;base64,${Buffer.from(product.feature_image, 'base64').toString('binary')}`;
+            product.quantity=orderData[i].quantity
+            arrProduct.push(product)
+        }
+        
+        return {customer:customer[0],arrProduct}
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports={payToCart,getAllCustomer,deleteOrder,getCustomerById}
